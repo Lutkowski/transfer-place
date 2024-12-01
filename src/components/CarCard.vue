@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import sitIcon from "/src/assets/icons/sit.svg"
+import sitIcon from "/icons/sit.svg"
 
 const props = defineProps<{
   img: {

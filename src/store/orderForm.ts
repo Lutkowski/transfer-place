@@ -8,7 +8,7 @@ export enum Transfer {
     RENT = "Аренда с водителем",
 }
 
-const backgroundPath = '/src/assets/transferBackground';
+const backgroundPath = '/transferBackground';
 export const transferImageURL: Record<Transfer, string> = {
     [Transfer.AIRPORT]: `${backgroundPath}/airport.jpg`,
     [Transfer.RAILWAY_STATION]: `${backgroundPath}/station.png`,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import arrow from "/src/assets/icons/arrow.svg"
+import arrow from "/icons/arrow.svg"
 import {orderFormState, Transfer} from "../store/orderForm.ts";
 
 defineProps<{

@@ -2,7 +2,7 @@
 
 import CarCard from "./CarCard.vue";
 
-const carPath = "src/assets/cars"
+const carPath = "/cars"
 
 const carList = [
   {

@@ -2,7 +2,7 @@
 import paySystems from "/src/assets/paySystems.svg"
 import carBackground from "/src/assets/carBackground.png"
 import map from "/src/assets/map.png"
-import arrow from "/src/assets/icons/arrow.svg"
+import arrow from "/icons/arrow.svg"
 import Modal from "./Modal.vue";
 import {closeModal, openModal} from "../store/Modal.ts";
 </script>

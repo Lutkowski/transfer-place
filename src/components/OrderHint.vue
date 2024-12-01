@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import calendarIcon from "/src/assets/icons/calendar.svg"
-import docIcon from "/src/assets/icons/docs.svg"
-import infoIcon from "/src/assets/icons/info.svg"
+import calendarIcon from "/icons/calendar.svg"
+import docIcon from "/icons/docs.svg"
+import infoIcon from "/icons/info.svg"
 </script>
 
 <template>

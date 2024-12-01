@@ -7,7 +7,7 @@ const steps = [
     component: HowOrderStepCard,
     props: {
       img: {
-        src: "/src/assets/howOrder/oneTick.svg",
+        src: "/howOrder/oneTick.svg",
         alt: "Выбрать поездку"
       },
       index: 1,
@@ -19,7 +19,7 @@ const steps = [
     component: HowOrderStepCard,
     props: {
       img: {
-        src: "/src/assets/howOrder/twoTick.svg",
+        src: "/howOrder/twoTick.svg",
         alt: "Оформить заявку"
       },
       index: 2,
@@ -31,7 +31,7 @@ const steps = [
     component: HowOrderStepCard,
     props: {
       img: {
-        src: "/src/assets/howOrder/car.svg",
+        src: "/howOrder/car.svg",
         alt: "Дождаться водителя"
       },
       index: 3,
