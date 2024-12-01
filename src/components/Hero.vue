@@ -35,7 +35,7 @@ const destinationItems = [
   min-height: calc(100vh + $destination-height);
   color: $secondary-color;
   background-size: cover;
-  background: url("src/assets/backgroundHero.jpg") no-repeat;
+  background: url("/public/backgroundHero.jpg") no-repeat;
 
   button {
     width: 17.3rem;
