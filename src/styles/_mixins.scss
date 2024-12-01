@@ -1,0 +1,19 @@
+@mixin container($width: 80%, $max-width: 1200px) {
+  width: $width;
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+@mixin padding-container {
+  padding: 0 10%;
+}
+
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin invalid(){
+  border: #d01212 solid 1px;
+}
