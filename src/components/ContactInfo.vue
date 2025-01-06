@@ -3,8 +3,11 @@ import paySystems from "/src/assets/paySystems.svg"
 import carBackground from "/src/assets/carBackground.png"
 import map from "/src/assets/map.png"
 import arrow from "/icons/arrow.svg"
-import Modal from "./Modal.vue";
-import {closeModal, openModal} from "../store/Modal.ts";
+import {useModalStore} from "../app/providers/modal.store.ts";
+import {ModalType} from "../shared/modal/modal.types.ts";
+import Modal from "../shared/modal/Modal.vue";
+
+const modalStore = useModalStore();
 </script>
 
 <template>
@@ -26,8 +29,8 @@ import {closeModal, openModal} from "../store/Modal.ts";
         <p>г. Н.Новгород, ул. Тропинина 8</p>
         <p><a href="mailto:info@transfer-place.ru">info@transfer-place.ru</a></p>
       </div>
-      <p @click="openModal('payment-info-modal')">Реквизиты</p>
-      <Modal id="payment-info-modal" @click="closeModal('payment-info-modal')" class="payment-info-modal">
+      <p @click="modalStore.openModal(ModalType.PaymentDetails)">Реквизиты</p>
+      <Modal :id="ModalType.PaymentDetails" @click="modalStore.closeModal()" class="payment-info-modal">
         <h2>Реквизиты</h2>
         <div>ИП Эргле Татьяна Владимировна <br>ИНН 526101050703<br>ОГРНИП
           308526131500016<br>Юр. адрес: 603137 г. Н. Новгород, пр. Гагарина, д. 119<br>р/с 40802810614500000882<br>к/с
@@ -105,15 +108,17 @@ import {closeModal, openModal} from "../store/Modal.ts";
   }
 }
 
-.payment-info-modal{
+.payment-info-modal {
   text-align: center;
-  h2{
+
+  h2 {
     text-transform: capitalize;
     font-weight: 600;
     font-size: 32px;
     line-height: 37px;
   }
-  div{
+
+  div {
     font-weight: 300;
     font-size: 16px;
     gap: 10px;

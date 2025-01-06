@@ -3,12 +3,13 @@ import {computed, ref} from "vue";
 import {orderFormState, Transfer} from "../store/orderForm.ts";
 import OrderHint from "./OrderHint.vue";
 import Button from "./Button.vue";
-import {modalStates, openModal} from "../store/Modal.ts";
-import Modal from "./Modal.vue";
 import MyInput from "./MyInput.vue";
 import MyRange from "./MyRange.vue";
 import MyCheckbox from "./MyCheckbox.vue";
 import MyTelInput from "./MyTelInput.vue";
+import {useModalStore} from "../app/providers/modal.store.ts";
+import {ModalType} from "../shared/modal/modal.types.ts";
+import {Modal} from "../shared";
 
 enum carClass {
   STANDART = "Стандарт",
@@ -81,7 +82,7 @@ const changeDestination = () => {
 
 const phone = ref('');
 
-modalStates.value['order'] = false;
+const modalStore = useModalStore();
 
 </script>
 
@@ -136,10 +137,10 @@ modalStates.value['order'] = false;
       <p v-if="orderFormState.destination !== Transfer.INTERCITY">Стоимость поездки: <strong>{{ totalPrice }} ₽</strong>
       </p>
       <p v-else>Стоимость рассчитывается оператором</p>
-      <Button type="submit" class="submit-button" @click.prevent="openModal('order')">
+      <Button type="submit" class="submit-button" @click.prevent="modalStore.openModal(ModalType.OrderDetails)">
         {{ orderFormState.destination !== Transfer.INTERCITY ? "ЗАБРОНИРОВАТЬ" : 'Рассчитать' }}
       </Button>
-      <Modal classes="order-modal" id="order">
+      <Modal :id="ModalType.OrderDetails" classes="order-modal">
         <div class="confirmation-order-details">
           <h2>Заказать</h2>
           <form>

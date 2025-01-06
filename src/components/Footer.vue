@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import Navbar from "./Navbar.vue";
-import Modal from "./Modal.vue";
-import {modalStates, openModal} from "../store/Modal.ts";
 import PrivacyPolicy from "./PrivacyPolicy.vue";
+import {useModalStore} from "../app/providers/modal.store.ts";
+import Modal from "../shared/modal/Modal.vue";
+import {ModalType} from "../shared/modal/modal.types.ts";
 
 const footerNavLinks = ["Автопарк", "Заказать", "Помощь"]
-modalStates.value['footer'] = false;
+const modalStore = useModalStore();
 </script>
 
 <template>
   <footer>
     <div class="footer-privacy-policy">
       <span>© Transfer-place.ru</span>
-      <p @click="openModal('footer')">Политика конфиденциальности</p>
-      <Modal id="footer" classes="footer-modal">
+      <p @click="modalStore.openModal(ModalType.PrivacyPolicy)">Политика конфиденциальности</p>
+      <Modal :id="ModalType.PrivacyPolicy" classes="footer-modal">
         <h2>
           Политика в отношении обработки персональных данных
         </h2>
@@ -71,7 +72,7 @@ footer {
 }
 
 @media (max-width: 768px) {
-  footer .footer-navbar{
+  footer .footer-navbar {
     display: none;
   }
 }

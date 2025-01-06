@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import {closeModal, isModalActive} from "../store/Modal.ts";
-import {computed, watch} from "vue";
+import {useModalStore} from "../../app/providers/modal.store.ts";
+import {ModalType} from "./modal.types.ts";
 
 const props = defineProps<{
-  id: string;
+  id: ModalType;
   classes?: string | string[];
 }>();
 
-const isActive = computed(() => isModalActive(props.id));
 
-watch(isActive, (newValue) => {
-  document.body.style.overflow = newValue ? "hidden" : "";
-});
+const modalStore = useModalStore();
 </script>
 
 <template>
-  <div v-if="isActive" class="modal-container" @click="closeModal(id)">
+  <div v-if="modalStore.openedModalId && props.id === modalStore.openedModalId"
+       class="modal-container"
+       @click="modalStore.closeModal()">
     <div :class="['modal-content',classes]" @click.stop>
       <slot></slot>
     </div>
