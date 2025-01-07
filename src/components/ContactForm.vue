@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref} from 'vue';
-import MyInput from "./MyInput.vue";
+import MyInput from "../shared/MyInput/MyInput.vue";
 import MyTelInput from "./MyTelInput.vue";
 import MyButton from "../shared/MyButton/MyButton.vue";
 

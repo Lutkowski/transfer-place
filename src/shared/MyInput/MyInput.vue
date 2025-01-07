@@ -1,18 +1,12 @@
 <script setup lang="ts">
 defineProps<{
-  modelValue?: string,
   name?: string;
   placeholder?: string;
   id?: string;
 }>()
 
-const emit = defineEmits(["update:modelValue"]);
+const modelValue = defineModel()
 
-const handleInput = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  const value = target.value;
-  emit("update:modelValue", value);
-};
 </script>
 
 <template>
@@ -21,8 +15,7 @@ const handleInput = (event: Event) => {
       type="text"
       :placeholder="placeholder"
       :name="name"
-      :value="modelValue"
-      @input="handleInput"
+      v-model="modelValue"
   />
 </template>
 

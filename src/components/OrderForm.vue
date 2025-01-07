@@ -2,7 +2,7 @@
 import {computed, ref} from "vue";
 import {orderFormState, Transfer} from "../store/orderForm.ts";
 import OrderHint from "./OrderHint.vue";
-import MyInput from "./MyInput.vue";
+import MyInput from "../shared/MyInput/MyInput.vue";
 import MyRange from "./MyRange.vue";
 import MyCheckbox from "./MyCheckbox.vue";
 import MyTelInput from "./MyTelInput.vue";
