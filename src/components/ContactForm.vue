@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {ref} from 'vue';
-import MyInput from "../shared/MyInput/MyInput.vue";
-import PhoneInput from "../shared/PhoneInput/PhoneInput.vue";
-import MyButton from "../shared/MyButton/MyButton.vue";
+import {MyInput} from "../shared/ui/MyInput";
+import {PhoneInput} from "../shared/ui/PhoneInput";
+import {MyButton} from "../shared/ui/MyButton";
 
 enum QuestionType {
   RENT = "Бронирование автомобиля",

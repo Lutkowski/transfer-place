@@ -3,7 +3,7 @@ import Header from "./Header.vue";
 import Navbar from "./Navbar.vue";
 import DestinationLink from "./DestinationLink.vue";
 import {Transfer} from "../store/orderForm.ts";
-import MyButton from "../shared/MyButton/MyButton.vue";
+import {MyButton} from "../shared/ui/MyButton";
 
 const destinationItems = [
   {component: DestinationLink, props: {destination: Transfer.AIRPORT, text: "Аэропорт Стригино"}},

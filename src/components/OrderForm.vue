@@ -2,14 +2,14 @@
 import {computed, ref} from "vue";
 import {orderFormState, Transfer} from "../store/orderForm.ts";
 import OrderHint from "./OrderHint.vue";
-import MyInput from "../shared/MyInput/MyInput.vue";
-import MyRange from "../shared/MyRange/MyRange.vue";
-import MyCheckbox from "../shared/MyCheckbox/MyCheckbox.vue";
-import PhoneInput from "../shared/PhoneInput/PhoneInput.vue";
+import MyInput from "../shared/ui/MyInput/MyInput.vue";
+import MyRange from "../shared/ui/MyRange/MyRange.vue";
+import MyCheckbox from "../shared/ui/MyCheckbox/MyCheckbox.vue";
+import PhoneInput from "../shared/ui/PhoneInput/PhoneInput.vue";
 import {useModalStore} from "../app/providers/modal.store.ts";
-import {ModalType} from "../shared/Modal/Modal.types.ts";
-import {Modal} from "../shared";
-import MyButton from "../shared/MyButton/MyButton.vue";
+import {ModalType} from "../shared/ui/Modal/Modal.types.ts";
+import {MyButton} from "../shared/ui/MyButton";
+import {Modal} from "../shared/ui/Modal";
 
 enum carClass {
   STANDART = "Стандарт",

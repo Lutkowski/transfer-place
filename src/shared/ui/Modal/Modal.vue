@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useModalStore} from "../../app/providers/modal.store.ts";
+import {useModalStore} from "../../../app/providers/modal.store.ts";
 import {ModalType} from "./Modal.types.ts";
 
 const props = defineProps<{
