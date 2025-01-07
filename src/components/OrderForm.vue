@@ -3,7 +3,7 @@ import {computed, ref} from "vue";
 import {orderFormState, Transfer} from "../store/orderForm.ts";
 import OrderHint from "./OrderHint.vue";
 import MyInput from "../shared/MyInput/MyInput.vue";
-import MyRange from "./MyRange.vue";
+import MyRange from "../shared/MyRange/MyRange.vue";
 import MyCheckbox from "../shared/MyCheckbox/MyCheckbox.vue";
 import PhoneInput from "../shared/PhoneInput/PhoneInput.vue";
 import {useModalStore} from "../app/providers/modal.store.ts";

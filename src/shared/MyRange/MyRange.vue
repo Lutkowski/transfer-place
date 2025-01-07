@@ -1,30 +1,19 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import {computed} from "vue";
 
 const props = defineProps<{
-  modelValue: number;
   name?: string;
-  placeholder?: string;
+  id?: string;
   min: number;
   max: number;
   step?: number;
-  id?: string;
 }>();
 
-
-const emit = defineEmits(["update:modelValue"]);
-
-const handleInput = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  const value = target.value;
-  emit("update:modelValue", value);
-};
+const modelValue = defineModel<number>();
 
 const tooltipPosition = computed(() => {
   const range = props.max - props.min + 1;
-  const offset = (props.modelValue - props.min) * (100 / range);
-  console.log(offset)
-  return offset;
+  return (modelValue.value - props.min) * (100 / range);
 });
 </script>
 
@@ -38,15 +27,13 @@ const tooltipPosition = computed(() => {
     </div>
 
     <input
-        :id="id"
         type="range"
-        :placeholder="placeholder"
-        :name="name"
-        :value="modelValue"
         :min="min"
         :max="max"
         :step="step"
-        @input="handleInput"
+        :name="name"
+        :id="id"
+        v-model="modelValue"
     />
 
     <div class="range-labels">
