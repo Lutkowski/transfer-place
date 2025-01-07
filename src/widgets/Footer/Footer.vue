@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Navbar from "./Navbar.vue";
-import PrivacyPolicy from "./PrivacyPolicy.vue";
-import {useModalStore} from "../app/providers/modal.store.ts";
-import {ModalType} from "../shared/ui/Modal/Modal.types.ts";
-import {Modal} from "../shared/ui/Modal";
+import Navbar from "../../components/Navbar.vue";
+import PrivacyPolicy from "../../components/PrivacyPolicy.vue";
+import {useModalStore} from "../../app/providers/modal.store.ts";
+import {ModalType} from "../../shared/ui/Modal/Modal.types.ts";
+import {Modal} from "../../shared/ui/Modal";
 
 const footerNavLinks = ["Автопарк", "Заказать", "Помощь"]
 const modalStore = useModalStore();
@@ -21,7 +21,7 @@ const modalStore = useModalStore();
         <PrivacyPolicy/>
       </Modal>
     </div>
-    <Navbar classes="footer-navbar" :items="footerNavLinks"/>
+    <Navbar class="footer-navbar" :items="footerNavLinks"/>
   </footer>
 </template>
 

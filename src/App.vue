@@ -5,7 +5,7 @@ import Order from "./components/Order.vue";
 import HowOrder from "./components/HowOrder.vue";
 import Support from "./features/support/Support.vue";
 import Contacts from "./components/Contacts.vue";
-import Footer from "./components/Footer.vue";
+import Footer from "./widgets/Footer/Footer.vue";
 import MessengerLink from "./components/MessengerLink.vue";
 </script>
 

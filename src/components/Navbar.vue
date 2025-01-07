@@ -9,13 +9,12 @@ export interface NavbarComponent {
 
 defineProps<{
   items: (string | NavbarComponent)[],
-  classes?: string | string[],
   liClasses?: string | string[],
 }>();
 </script>
 
 <template>
-  <ul :class=[classes]>
+  <ul>
     <li :class=[liClasses] v-for="(item, index) in items" :key="index">
       <slot :item="item" :index="index">
         <span v-if="typeof item === 'string'" v-html="item"></span>
@@ -34,7 +33,7 @@ ul {
 
 
 @media (max-width: 768px) {
-  .hero-navbar li{
+  .hero-navbar li {
     margin-top: 1rem;
   }
 }
