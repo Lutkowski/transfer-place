@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import MyInput from "../shared/MyInput/MyInput.vue";
-import MyTelInput from "./MyTelInput.vue";
+import PhoneInput from "../shared/PhoneInput/PhoneInput.vue";
 import MyButton from "../shared/MyButton/MyButton.vue";
 
 enum QuestionType {
@@ -34,10 +34,10 @@ const submitForm = () => {
         <option>{{ QuestionType.QUESTION }}</option>
       </select>
       <MyInput v-model="name" type="text" name="name" placeholder="Имя"/>
-      <MyTelInput
+      <PhoneInput
           v-model="phone"
-          classes="request-my-tel"
-      ></MyTelInput>
+          class="request-my-tel"
+      ></PhoneInput>
       <div class="request-button-container">
         <div>
           <MyButton class="request-button" type="submit">Перезвоните мне</MyButton>

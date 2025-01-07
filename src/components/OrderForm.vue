@@ -5,7 +5,7 @@ import OrderHint from "./OrderHint.vue";
 import MyInput from "../shared/MyInput/MyInput.vue";
 import MyRange from "./MyRange.vue";
 import MyCheckbox from "./MyCheckbox.vue";
-import MyTelInput from "./MyTelInput.vue";
+import PhoneInput from "../shared/PhoneInput/PhoneInput.vue";
 import {useModalStore} from "../app/providers/modal.store.ts";
 import {ModalType} from "../shared/Modal/Modal.types.ts";
 import {Modal} from "../shared";
@@ -112,9 +112,9 @@ const modalStore = useModalStore();
       </select>
 
       <label for="phone">Номер телефона</label>
-      <MyTelInput
-          :modelValue="phone" classes="my-tel-input-order" name="phone"
-      ></MyTelInput>
+      <PhoneInput
+          :modelValue="phone" class="my-tel-input-order" name="phone"
+      ></PhoneInput>
       <div v-if="orderFormState.destination === Transfer.RENT">
         <label for="hoursQuantity">Количество часов</label>
         <MyRange v-model="hoursQuantity" type="range" id="hoursQuantity"
@@ -153,8 +153,8 @@ const modalStore = useModalStore();
               Контактные данные
             </label>
             <MyInput type="text" id="name" placeholder="Как к вам обращаться?" v-model="name"/>
-            <MyTelInput v-model="phone" classes="my-tel-input-order"
-            ></MyTelInput>
+            <PhoneInput v-model="phone" class="my-tel-input-order"
+            ></PhoneInput>
             <MyButton>Оставить заявку</MyButton>
           </form>
         </div>
