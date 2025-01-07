@@ -4,8 +4,8 @@ import carBackground from "/src/assets/carBackground.png"
 import map from "/src/assets/map.png"
 import arrow from "/icons/arrow.svg"
 import {useModalStore} from "../app/providers/modal.store.ts";
-import {ModalType} from "../shared/modal/modal.types.ts";
-import Modal from "../shared/modal/Modal.vue";
+import {ModalType} from "../shared/Modal/Modal.types.ts";
+import Modal from "../shared/Modal/Modal.vue";
 
 const modalStore = useModalStore();
 </script>

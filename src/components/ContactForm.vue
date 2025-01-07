@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {ref} from 'vue';
-import Button from "./Button.vue";
 import MyInput from "./MyInput.vue";
 import MyTelInput from "./MyTelInput.vue";
+import MyButton from "../shared/MyButton/MyButton.vue";
 
 enum QuestionType {
   RENT = "Бронирование автомобиля",
@@ -40,7 +40,7 @@ const submitForm = () => {
       ></MyTelInput>
       <div class="request-button-container">
         <div>
-          <Button class="request-button" type="submit">Перезвоните мне</Button>
+          <MyButton class="request-button" type="submit">Перезвоните мне</MyButton>
         </div>
         <div>
           <p class="disclaimer">

@@ -2,8 +2,8 @@
 import Header from "./Header.vue";
 import Navbar from "./Navbar.vue";
 import DestinationLink from "./DestinationLink.vue";
-import Button from "./Button.vue";
 import {Transfer} from "../store/orderForm.ts";
+import MyButton from "../shared/MyButton/MyButton.vue";
 
 const destinationItems = [
   {component: DestinationLink, props: {destination: Transfer.AIRPORT, text: "Аэропорт Стригино"}},
@@ -22,7 +22,7 @@ const destinationItems = [
       <div class="hero-content">
         <div class="hero-content-order">
           <h1>Сервис бронирования поездок по <br/> Нижнему Новгороду, области и куда угодно</h1>
-          <Button classes="hero-button">Заказать поездку</Button>
+          <MyButton class="hero-button">Заказать поездку</MyButton>
         </div>
       </div>
     </div>

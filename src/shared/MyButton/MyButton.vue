@@ -1,12 +1,11 @@
 <script setup lang="ts">
 defineProps<{
   type?: 'button' | 'submit' | 'reset';
-  classes?: string | string[];
 }>();
 </script>
 
 <template>
-  <button :type="type || 'button'" :class="['my-button', classes]">
+  <button :type="type || 'button'" class="my-button">
     <slot/>
   </button>
 </template>

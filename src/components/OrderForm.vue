@@ -2,14 +2,14 @@
 import {computed, ref} from "vue";
 import {orderFormState, Transfer} from "../store/orderForm.ts";
 import OrderHint from "./OrderHint.vue";
-import Button from "./Button.vue";
 import MyInput from "./MyInput.vue";
 import MyRange from "./MyRange.vue";
 import MyCheckbox from "./MyCheckbox.vue";
 import MyTelInput from "./MyTelInput.vue";
 import {useModalStore} from "../app/providers/modal.store.ts";
-import {ModalType} from "../shared/modal/modal.types.ts";
+import {ModalType} from "../shared/Modal/Modal.types.ts";
 import {Modal} from "../shared";
+import MyButton from "../shared/MyButton/MyButton.vue";
 
 enum carClass {
   STANDART = "Стандарт",
@@ -137,9 +137,9 @@ const modalStore = useModalStore();
       <p v-if="orderFormState.destination !== Transfer.INTERCITY">Стоимость поездки: <strong>{{ totalPrice }} ₽</strong>
       </p>
       <p v-else>Стоимость рассчитывается оператором</p>
-      <Button type="submit" class="submit-button" @click.prevent="modalStore.openModal(ModalType.OrderDetails)">
+      <MyButton type="submit" class="submit-button" @click.prevent="modalStore.openModal(ModalType.OrderDetails)">
         {{ orderFormState.destination !== Transfer.INTERCITY ? "ЗАБРОНИРОВАТЬ" : 'Рассчитать' }}
-      </Button>
+      </MyButton>
       <Modal :id="ModalType.OrderDetails" classes="order-modal">
         <div class="confirmation-order-details">
           <h2>Заказать</h2>
@@ -155,7 +155,7 @@ const modalStore = useModalStore();
             <MyInput type="text" id="name" placeholder="Как к вам обращаться?" v-model="name"/>
             <MyTelInput v-model="phone" classes="my-tel-input-order"
             ></MyTelInput>
-            <Button>Оставить заявку</Button>
+            <MyButton>Оставить заявку</MyButton>
           </form>
         </div>
       </Modal>

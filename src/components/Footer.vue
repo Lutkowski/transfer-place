@@ -2,8 +2,8 @@
 import Navbar from "./Navbar.vue";
 import PrivacyPolicy from "./PrivacyPolicy.vue";
 import {useModalStore} from "../app/providers/modal.store.ts";
-import Modal from "../shared/modal/Modal.vue";
-import {ModalType} from "../shared/modal/modal.types.ts";
+import Modal from "../shared/Modal/Modal.vue";
+import {ModalType} from "../shared/Modal/Modal.types.ts";
 
 const footerNavLinks = ["Автопарк", "Заказать", "Помощь"]
 const modalStore = useModalStore();
