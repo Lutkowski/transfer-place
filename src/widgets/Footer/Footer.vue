@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Navbar from "../../components/Navbar.vue";
-import PrivacyPolicy from "../../components/PrivacyPolicy.vue";
+import PrivacyPolicy from "./PrivacyPolicy.vue";
 import {useModalStore} from "../../app/providers/modal.store.ts";
 import {ModalType} from "../../shared/ui/Modal/Modal.types.ts";
 import {Modal} from "../../shared/ui/Modal";
