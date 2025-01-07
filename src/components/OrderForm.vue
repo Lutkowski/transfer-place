@@ -4,7 +4,7 @@ import {orderFormState, Transfer} from "../store/orderForm.ts";
 import OrderHint from "./OrderHint.vue";
 import MyInput from "../shared/MyInput/MyInput.vue";
 import MyRange from "./MyRange.vue";
-import MyCheckbox from "./MyCheckbox.vue";
+import MyCheckbox from "../shared/MyCheckbox/MyCheckbox.vue";
 import PhoneInput from "../shared/PhoneInput/PhoneInput.vue";
 import {useModalStore} from "../app/providers/modal.store.ts";
 import {ModalType} from "../shared/Modal/Modal.types.ts";
