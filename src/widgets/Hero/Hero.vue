@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Header from "./Header.vue";
-import Navbar from "./Navbar.vue";
-import DestinationLink from "./DestinationLink.vue";
-import {Transfer} from "../store/orderForm.ts";
-import {MyButton} from "../shared/ui/MyButton";
+import Navbar from "../../components/Navbar.vue";
+import DestinationLink from "../../components/DestinationLink.vue";
+import {MyButton} from "../../shared/ui/MyButton";
+import {Transfer} from "../../store/orderForm.ts";
 
 const destinationItems = [
   {component: DestinationLink, props: {destination: Transfer.AIRPORT, text: "Аэропорт Стригино"}},
@@ -35,7 +35,7 @@ const destinationItems = [
   min-height: calc(100vh + $destination-height);
   color: $secondary-color;
   background-size: cover;
-  background: url("/public/backgroundHero.jpg") no-repeat;
+  background: url("/backgroundHero.jpg") no-repeat;
 
   button {
     width: 17.3rem;

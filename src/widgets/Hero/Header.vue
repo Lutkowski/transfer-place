@@ -1,8 +1,6 @@
 <script setup lang="ts">
-
-import Navbar from "./Navbar.vue";
+import Navbar from "../../components/Navbar.vue";
 import logo from "/src/assets/logo.svg"
-import PhoneLink from "./PhoneLink.vue";
 
 const headerItems = [
   '<a href="#autopark">автопарк</a>',
@@ -18,7 +16,7 @@ const headerItems = [
       <p>transfer<br/>place</p>
     </div>
     <Navbar :items="headerItems" class="navbar__header"></Navbar>
-    <PhoneLink :classes="'phone__header'"/>
+    <a class="phone__header" href="tel:89315213066">8 (931) 521-30-66</a>
   </header>
 </template>
 
@@ -67,20 +65,21 @@ header {
   font-weight: 500;
   text-transform: uppercase;
 }
+
 @media(max-width: 991.98px) {
-  .navbar__header{
+  .navbar__header {
     margin-left: 3rem;
     font-weight: 400;
     gap: 1rem;
   }
 
-  .phone__header{
+  .phone__header {
     font-size: 15px;
   }
 }
 
 @media (max-width: 768px) {
-  .navbar__header{
+  .navbar__header {
     display: none;
   }
 }
