@@ -5,7 +5,7 @@ import logo from "/src/assets/logo.svg"
 const headerItems = [
   '<a href="#autopark">автопарк</a>',
   '<a href="#order">заказать</a>',
-  '<a href="#support">помощь</a>',
+  '<a href="#supportSection">помощь</a>',
   '<a href="#contacts">контакты</a>']
 </script>
 

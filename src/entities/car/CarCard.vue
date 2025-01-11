@@ -1,26 +1,21 @@
 <script setup lang="ts">
 import sitIcon from "/icons/sit.svg"
+import {ICar} from "./car.types.ts";
 
-const props = defineProps<{
-  img: {
-    src: string;
-    alt: string;
-  };
-  carClass: string;
-  title: string;
-  placeNumber: number;
+const {car} = defineProps<{
+  car: ICar;
 }>();
 </script>
 
 <template>
   <div class="car-card">
-    <img :src="props.img.src" :alt="props.img.alt">
+    <img :src="car.img.src" :alt="car.img.alt">
     <div class="car-info">
-      <h3>{{ carClass }}</h3>
-      <p>{{ title }}</p>
+      <h3>{{ car.carClass }}</h3>
+      <p>{{ car.title }}</p>
       <div class="car-place">
         <img :src="sitIcon" alt="иконка сидения"/>
-        <span>Кол-во мест: {{ placeNumber }}</span>
+        <span>Кол-во мест: {{ car.placeNumber }}</span>
       </div>
     </div>
   </div>
