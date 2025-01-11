@@ -4,13 +4,13 @@ import Order from "../components/Order.vue";
 import HowOrder from "../features/howOrderSection/HowOrder.vue";
 import Support from "../features/supportSection/Support.vue";
 import Contacts from "../widgets/Contact/Contacts.vue";
-import MessengerLink from "../components/MessengerLink.vue";
+import MessengerMenu from "../widgets/MessengerMenu/MessengerMenu.vue";
 import {Hero} from "../widgets/Hero";
 import {Footer} from "../widgets/Footer"
 </script>
 
 <template>
-  <MessengerLink/>
+  <MessengerMenu/>
   <Hero/>
   <Car/>
   <Order/>

@@ -26,9 +26,9 @@ div::after {
   position: absolute;
   width: 0;
   height: 0;
-  margin-left: 1px; /* Adjust as needed */
+  margin-left: 1px;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-left: 10px solid rgb(41, 41, 41); /* Adjust color as needed */
+  border-left: 10px solid rgb(41, 41, 41);
 }
 </style>
