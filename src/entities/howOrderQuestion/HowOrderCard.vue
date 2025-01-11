@@ -1,21 +1,17 @@
 <script setup lang="ts">
-const props = defineProps<{
-  img: {
-    src: string;
-    alt: string;
-  }
-  title: string;
-  content: string;
-  index: number;
+import {IHowOrderQuestion} from "./HowOrderQuestions.types.ts";
+
+const {question} = defineProps<{
+  question: IHowOrderQuestion;
 }>();
 </script>
 
 <template>
   <div class="order-step-card">
-    <img :src="props.img.src" :alt="props.img.alt"/>
-    <h3>{{ title }}</h3>
-    <p>{{ content }}</p>
-    <span class="order-step-card-counter">{{index}}</span>
+    <img :src="question.img.src" :alt="question.img.alt"/>
+    <h3>{{ question.title }}</h3>
+    <p>{{ question.content }}</p>
+    <span class="order-step-card-counter">{{ question.index }}</span>
   </div>
 </template>
 
@@ -41,12 +37,13 @@ const props = defineProps<{
     font-size: 14px;
   }
 }
-.order-step-card-counter{
+
+.order-step-card-counter {
   color: $light-blue-background;
   font-size: 48px;
   font-weight: 600;
   position: absolute;
-  top:  2rem;
+  top: 2rem;
   right: 2rem;
 }
 </style>

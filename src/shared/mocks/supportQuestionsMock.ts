@@ -1,4 +1,4 @@
-import {ISupportQuestion} from "../../entities/question/SupportQuestion.types";
+import {ISupportQuestion} from "../../entities/supportQuestion/SupportQuestion.types";
 
 
 export const supportQuestionsMock:Array<ISupportQuestion> = [

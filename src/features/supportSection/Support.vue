@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SupportQuestion from "../../entities/question/SupportQuestion.vue";
+import SupportQuestion from "../../entities/supportQuestion/SupportQuestion.vue";
 import {supportQuestionsMock} from "../../shared/mocks/supportQuestionsMock";
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Navbar from "../../components/Navbar.vue";
+import Navbar from "../../shared/ui/Navbar/Navbar.vue";
 import PrivacyPolicy from "./PrivacyPolicy.vue";
 import {useModalStore} from "../../app/providers/modal.store.ts";
 import {ModalType} from "../../shared/ui/Modal/Modal.types.ts";
@@ -21,7 +21,11 @@ const modalStore = useModalStore();
         <PrivacyPolicy/>
       </Modal>
     </div>
-    <Navbar class="footer-navbar" :items="footerNavLinks"/>
+    <Navbar class="footer-navbar">
+      <li v-for="item in footerNavLinks">
+        <span>{{ item}}</span>
+      </li>
+    </Navbar>
   </footer>
 </template>
 

@@ -1,18 +1,10 @@
 <script setup lang="ts">
 import Header from "./Header.vue";
-import Navbar from "../../components/Navbar.vue";
-import DestinationLink from "../../components/DestinationLink.vue";
+import Navbar from "../../shared/ui/Navbar/Navbar.vue";
+import DestinationLink from "./DestinationLink.vue";
 import {MyButton} from "../../shared/ui/MyButton";
-import {Transfer} from "../../store/orderForm.ts";
+import {destinationItems} from "../../shared/mocks/destinationsMock.ts";
 
-const destinationItems = [
-  {component: DestinationLink, props: {destination: Transfer.AIRPORT, text: "Аэропорт Стригино"}},
-  {component: DestinationLink, props: {destination: Transfer.RAILWAY_STATION, text: "ЖД Вокзал"}},
-  {component: DestinationLink, props: {destination: Transfer.ADDRESS, text: "С адреса на адрес"}},
-  {component: DestinationLink, props: {destination: Transfer.RENT, text: "Аренда авто с водителем"}},
-  {component: DestinationLink, props: {destination: Transfer.INTERCITY, text: "Междугородние поездки"}},
-
-];
 </script>
 
 <template>
@@ -26,7 +18,11 @@ const destinationItems = [
         </div>
       </div>
     </div>
-    <Navbar class="hero-navbar" :items="destinationItems"></Navbar>
+    <Navbar class="hero-navbar">
+      <li v-for="item in destinationItems" :key="item.destination">
+        <DestinationLink :destination="item"></DestinationLink>
+      </li>
+    </Navbar>
   </section>
 </template>
 

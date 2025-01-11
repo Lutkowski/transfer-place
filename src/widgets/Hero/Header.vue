@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import Navbar from "../../components/Navbar.vue";
+import Navbar from "../../shared/ui/Navbar/Navbar.vue";
 import logo from "/src/assets/logo.svg"
 
 const headerItems = [
-  '<a href="#autopark">автопарк</a>',
-  '<a href="#order">заказать</a>',
-  '<a href="#supportSection">помощь</a>',
-  '<a href="#contacts">контакты</a>']
+  {href: "#autopark", text: "автопарк"},
+  {href: "#order", text: "заказать"},
+  {href: "#supportSection", text: "помощь"},
+  {href: "#contacts", text: "контакты"},
+];
 </script>
 
 <template>
@@ -15,7 +16,11 @@ const headerItems = [
       <img :src="logo" alt="Логотип">
       <p>transfer<br/>place</p>
     </div>
-    <Navbar :items="headerItems" class="navbar__header"></Navbar>
+    <Navbar class="navbar__header">
+      <li v-for="(item, index) in headerItems" :key="index">
+        <a :href="item.href">{{ item.text }}</a>
+      </li>
+    </Navbar>
     <a class="phone__header" href="tel:89315213066">8 (931) 521-30-66</a>
   </header>
 </template>
