@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import paySystems from "/src/assets/paySystems.svg"
-import carBackground from "/src/assets/carBackground.png"
-import map from "/src/assets/map.png"
-import arrow from "/icons/arrow.svg"
-import {useModalStore} from "../app/providers/modal.store.ts";
-import {Modal} from "../shared/ui/Modal";
-import {ModalType} from "../shared/ui/Modal/Modal.types.ts";
+import {useModalStore} from "../../app/providers/modal.store";
+import {Modal} from "../../shared/ui/Modal";
+import {ModalType} from "../../shared/ui/Modal/Modal.types";
 
 const modalStore = useModalStore();
 </script>
@@ -16,7 +12,7 @@ const modalStore = useModalStore();
       <div class="phone">
         <div class="arrow-container">
           <h3>Позвоните нам</h3>
-          <img :src="arrow" alt="стрелочка"/>
+          <img src="/icons/arrow.svg" alt="стрелочка"/>
         </div>
         <p><a href="tel:+79315213066">8 (931) 521-30-66</a></p>
       </div>
@@ -24,7 +20,7 @@ const modalStore = useModalStore();
       <div class="office">
         <div class="arrow-container">
           <h3>Офис</h3>
-          <img :src="arrow" alt="стрелочка"/>
+          <img src="/icons/arrow.svg" alt="стрелочка"/>
         </div>
         <p>г. Н.Новгород, ул. Тропинина 8</p>
         <p><a href="mailto:info@transfer-place.ru">info@transfer-place.ru</a></p>
@@ -39,12 +35,12 @@ const modalStore = useModalStore();
       </Modal>
 
       <div class="payment-icons">
-        <img :src="paySystems" alt="MasterCard, VISA, МИР"/>
+        <img src="/paySystems.svg" alt="MasterCard, VISA, МИР"/>
       </div>
     </div>
     <div class="car-image">
-      <img class="map" :src="map" alt="Карта Нижнего Новгорода"/>
-      <img class="car" :src="carBackground" alt="Машина на фоне карты"/>
+      <img class="map" src="/map.png" alt="Карта Нижнего Новгорода"/>
+      <img class="car" src="/carBackground.png" alt="Машина на фоне карты"/>
     </div>
   </div>
 </template>

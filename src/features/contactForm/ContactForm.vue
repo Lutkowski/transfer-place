@@ -1,34 +1,18 @@
 <script setup lang="ts">
-import {ref} from 'vue';
-import {MyInput} from "../shared/ui/MyInput";
-import {PhoneInput} from "../shared/ui/PhoneInput";
-import {MyButton} from "../shared/ui/MyButton";
-
-enum QuestionType {
-  RENT = "Бронирование автомобиля",
-  CANCEL = "Отмена заказа",
-  QUESTION = "Задать вопрос",
-}
-
-const choosenQuetionType = ref(QuestionType.RENT)
-const phone = ref('');
-const name = ref('');
+import {MyInput} from "../../shared/ui/MyInput";
+import {PhoneInput} from "../../shared/ui/PhoneInput";
+import {MyButton} from "../../shared/ui/MyButton";
+import {useContactForm} from "./useContactForm";
 
 
-const submitForm = () => {
-  console.log({
-    type: choosenQuetionType.value,
-    phone: phone.value,
-    name: name.value,
-  })
-}
+const { chosenQuestionType, phone, name, submitForm, QuestionType } = useContactForm();
 </script>
 
 <template>
   <div>
     <h3>Оставить заявку</h3>
     <form @submit.prevent="submitForm">
-      <select id="request" v-model="choosenQuetionType">
+      <select id="request" v-model="chosenQuestionType">
         <option>{{ QuestionType.RENT }}</option>
         <option>{{ QuestionType.CANCEL }}</option>
         <option>{{ QuestionType.QUESTION }}</option>
