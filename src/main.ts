@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
-import App from './App.vue'
-import './styles/_global.scss';
+import App from './app/App.vue'
+import './app/styles/_global.scss';
 import 'vue-tel-input/vue-tel-input.css';
 import VueTelInput from "vue-tel-input";
 import {createPinia} from "pinia";

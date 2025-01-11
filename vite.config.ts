@@ -8,8 +8,8 @@ export default defineConfig({
         preprocessorOptions: {
             scss: {
                 additionalData: `
-          @use "src/styles/_variables" as *;
-          @use "src/styles/_mixins" as *;
+          @use "src/app/styles/_variables" as *;
+          @use "src/app/styles/_mixins" as *;
         `,
                 silenceDeprecations: ["legacy-js-api"],
             },
