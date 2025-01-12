@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import {orderFormState, Transfer} from "../store/orderForm.ts";
+import {ref} from "vue";
 import OrderHint from "./OrderHint.vue";
 import MyInput from "../shared/ui/MyInput/MyInput.vue";
 import MyRange from "../shared/ui/MyRange/MyRange.vue";
@@ -10,102 +9,54 @@ import {useModalStore} from "../app/providers/modal.store.ts";
 import {ModalType} from "../shared/ui/Modal/Modal.types.ts";
 import {MyButton} from "../shared/ui/MyButton";
 import {Modal} from "../shared/ui/Modal";
+import {Destinations} from "../entities/destination/destination.types.ts";
+import {useOrderStore} from "../app/providers/order.store.ts";
+import {useOrderForm} from "../features/orderForm/useOrderForm.ts";
+import {carClass} from "../entities/car/car.types.ts";
 
-enum carClass {
-  STANDART = "Стандарт",
-  COMFORT = "Комфорт",
-  BUSINESS = "Бизнесс",
-  MINIWAN = "Минивэн"
-}
+const modalStore = useModalStore();
+const orderStore = useOrderStore();
 
-const carClassPrices = {
-  [carClass.STANDART]: {
-    [Transfer.AIRPORT]: 1200,
-    [Transfer.RAILWAY_STATION]: 800,
-    [Transfer.ADDRESS]: 800,
-    [Transfer.RENT]: 1000
-  },
-  [carClass.COMFORT]: {
-    [Transfer.AIRPORT]: 2500,
-    [Transfer.RAILWAY_STATION]: 1500,
-    [Transfer.ADDRESS]: 1500,
-    [Transfer.RENT]: 1500
-  },
-  [carClass.BUSINESS]: {
-    [Transfer.AIRPORT]: 6000,
-    [Transfer.RAILWAY_STATION]: 4000,
-    [Transfer.ADDRESS]: 4000,
-    [Transfer.RENT]: 2000
-  },
-  [carClass.MINIWAN]: {
-    [Transfer.AIRPORT]: 4500,
-    [Transfer.RAILWAY_STATION]: 3000,
-    [Transfer.ADDRESS]: 3000,
-    [Transfer.RENT]: 1500
-  },
-}
+const {totalPrice} = useOrderForm();
 
-const carClassOptions = computed(() => Object.entries(carClass));
+const carClassOptions = Object.entries(carClass);
+const transferOptions = Object.entries(Destinations);
 
-
-const transferOptions = computed(() => Object.entries(Transfer));
-
-const basePrice = ref(0);
-const choosenCarClass = ref(carClass.STANDART)
-const withChild = ref(false)
-const withSign = ref(false)
-const hoursQuantity = ref(4);
-const name = ref('');
-
-const withSignPrice = 500;
-const withChildPrice = 300;
-
-
-const totalPrice = computed(() => {
-  let total = basePrice.value + carClassPrices[choosenCarClass.value][orderFormState.value.destination];
-  if (orderFormState.value.destination === Transfer.RENT) {
-    total *= hoursQuantity.value;
-  }
-  if (withChild.value) total += withChildPrice;
-  if (withSign.value) total += withSignPrice;
-  return total;
-});
+const backgroundPath = '/transferBackground';
+const transferImageURL: Record<Destinations, string> = {
+  [Destinations.AIRPORT]: `${backgroundPath}/airport.jpg`,
+  [Destinations.RAILWAY_STATION]: `${backgroundPath}/station.png`,
+  [Destinations.ADDRESS]: `${backgroundPath}/address.png`,
+  [Destinations.INTERCITY]: `${backgroundPath}/intercity.png`,
+  [Destinations.RENT]: `${backgroundPath}/rent.png`,
+};
 
 const showDestination = ref(true);
 const changeDestination = () => {
-  // Прямое изменение destination
   showDestination.value = false;
   setTimeout(() => {
     showDestination.value = true;
   }, 1000);
 };
 
-const phone = ref('');
-
-const modalStore = useModalStore();
-
 </script>
 
 <template>
-  <header id="order-form" :style="{ backgroundImage: `url(${orderFormState.imageUrl})` }">
+  <header id="order-form" :style="{ backgroundImage: `url(${transferImageURL[orderStore.destination]})` }">
     <transition name="fade">
-      <h2 v-if="showDestination">{{ orderFormState.destination }}</h2>
+      <h2 v-if="showDestination">{{ orderStore.destination }}</h2>
     </transition>
-    <!--
-    <button>Заказать</button>
-    <img :src="arrowDown" alt="Прокрутить вниз"/>
-    -->
   </header>
   <div class="order-form-content">
     <form>
       <label for="transferType">Вид трансфера</label>
-      <select id="transferType" @change="changeDestination" v-model="orderFormState.destination">
+      <select id="transferType" @change="changeDestination" v-model="orderStore.destination">
         <option v-for="[key, label] in transferOptions" :key="key" :label="label">
           {{ label }}
         </option>
       </select>
       <label for="carClass">Класс автомобиля</label>
-      <select id="carClass" v-model="choosenCarClass">
+      <select id="carClass" v-model="orderStore.chosenCarClass">
         <option v-for="[key, label ] in carClassOptions" :key="key" :label="label">
           {{ label }}
         </option>
@@ -113,32 +64,33 @@ const modalStore = useModalStore();
 
       <label for="phone">Номер телефона</label>
       <PhoneInput
-          :modelValue="phone" class="my-tel-input-order" name="phone"
+          :modelValue="orderStore.phone" class="my-tel-input-order" name="phone"
       ></PhoneInput>
-      <div v-if="orderFormState.destination === Transfer.RENT">
+      <div v-if="orderStore.destination === Destinations.RENT">
         <label for="hoursQuantity">Количество часов</label>
-        <MyRange v-model="hoursQuantity" type="range" id="hoursQuantity"
+        <MyRange v-model.number="orderStore.hoursQuantity" type="range" id="hoursQuantity"
                  :min="4" :max="24"/>
       </div>
-      <div v-if="orderFormState.destination !== Transfer.INTERCITY" class="additional-options">
+      <div v-if="orderStore.destination !== Destinations.INTERCITY" class="additional-options">
         <div class="checkbox-container">
-          <MyCheckbox type="checkbox" name="meetingSign" v-model="withSign" :value="true"/>
+          <MyCheckbox type="checkbox" name="meetingSign" v-model="orderStore.withSign" :value="true"/>
           <label>
             Встреча с табличкой (500 ₽)
           </label>
         </div>
         <div class="checkbox-container">
-          <MyCheckbox type="checkbox" name="childSeat" v-model="withChild" :value="true"/>
+          <MyCheckbox type="checkbox" name="childSeat" v-model="orderStore.withChild" :value="true"/>
           <label>
             Детское кресло (300 ₽)
           </label>
         </div>
       </div>
-      <p v-if="orderFormState.destination !== Transfer.INTERCITY">Стоимость поездки: <strong>{{ totalPrice }} ₽</strong>
+      <p v-if="orderStore.destination !== Destinations.INTERCITY">Стоимость поездки: <strong>{{ totalPrice }}
+        ₽</strong>
       </p>
       <p v-else>Стоимость рассчитывается оператором</p>
       <MyButton type="submit" class="submit-button" @click.prevent="modalStore.openModal(ModalType.OrderDetails)">
-        {{ orderFormState.destination !== Transfer.INTERCITY ? "ЗАБРОНИРОВАТЬ" : 'Рассчитать' }}
+        {{ orderStore.destination !== Destinations.INTERCITY ? "ЗАБРОНИРОВАТЬ" : 'Рассчитать' }}
       </MyButton>
       <Modal :id="ModalType.OrderDetails" classes="order-modal">
         <div class="confirmation-order-details">
@@ -148,12 +100,14 @@ const modalStore = useModalStore();
               Информация о поездке
             </label>
             <textarea id="tripInformation"
-                      placeholder="Укажите маршрут (откуда - куда), время, дату и ваши комментарии или пожелания"></textarea>
+                      placeholder="Укажите маршрут (откуда - куда), время, дату и ваши комментарии или пожелания"
+                      v-model="orderStore.details"
+            ></textarea>
             <label for="name">
               Контактные данные
             </label>
-            <MyInput type="text" id="name" placeholder="Как к вам обращаться?" v-model="name"/>
-            <PhoneInput v-model="phone" class="my-tel-input-order"
+            <MyInput type="text" id="name" placeholder="Как к вам обращаться?" v-model="orderStore.name"/>
+            <PhoneInput v-model="orderStore.phone" class="my-tel-input-order"
             ></PhoneInput>
             <MyButton>Оставить заявку</MyButton>
           </form>
@@ -182,7 +136,7 @@ h2 {
   transition: opacity 1s ease-in-out;
 }
 
-form{
+form {
   gap: 5px;
 }
 
@@ -190,8 +144,7 @@ form{
   transition: opacity 1s ease-in-out;
 }
 
-.fade-enter, .fade-leave-to
-{
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 
@@ -265,11 +218,12 @@ textarea {
   overflow: auto;
 }
 
-.checkbox-container{
+.checkbox-container {
   display: flex;
   gap: 10px;
   align-items: center;
-  label{
+
+  label {
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;

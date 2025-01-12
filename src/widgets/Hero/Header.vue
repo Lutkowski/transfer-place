@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Navbar from "../../shared/ui/Navbar/Navbar.vue";
-import logo from "/public/logo.svg"
+import logo from "/logo.svg"
 
 const headerItems = [
   {href: "#autopark", text: "автопарк"},

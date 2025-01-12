@@ -1,12 +1,12 @@
-import {Transfer} from "../../store/orderForm";
 import {IDestination} from "../../widgets/Hero";
+import {Destinations} from "../../entities/destination/destination.types.ts";
 
 
 export const destinationItems: IDestination[] = [
-    {destination: Transfer.AIRPORT, text: "Аэропорт Стригино"},
-    {destination: Transfer.RAILWAY_STATION, text: "ЖД Вокзал"},
-    {destination: Transfer.ADDRESS, text: "С адреса на адрес"},
-    {destination: Transfer.RENT, text: "Аренда авто с водителем"},
-    {destination: Transfer.INTERCITY, text: "Междугородние поездки"},
+    {destination: Destinations.AIRPORT, text: "Аэропорт Стригино"},
+    {destination: Destinations.RAILWAY_STATION, text: "ЖД Вокзал"},
+    {destination: Destinations.ADDRESS, text: "С адреса на адрес"},
+    {destination: Destinations.RENT, text: "Аренда авто с водителем"},
+    {destination: Destinations.INTERCITY, text: "Междугородние поездки"},
 
 ];
