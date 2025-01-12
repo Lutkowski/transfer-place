@@ -1,6 +1,7 @@
-import {Destinations} from "../../store/orderForm.ts";
+import {Destinations} from "../../entities/destination/destination.types.ts";
+
 
 export interface IDestination {
-    destination: Transfer;
+    destination: Destinations;
     text: string;
 }
