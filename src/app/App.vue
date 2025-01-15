@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Car from "../features/carSection/Car.vue";
-import Order from "../components/Order.vue";
+import Order from "../widgets/Order/Order.vue";
 import HowOrder from "../features/howOrderSection/HowOrder.vue";
 import Support from "../features/supportSection/Support.vue";
 import Contacts from "../widgets/Contact/Contacts.vue";
