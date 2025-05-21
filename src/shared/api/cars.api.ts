@@ -1,5 +1,5 @@
 import { http } from './http';
-import {ICar} from "../../entities/car/car.types.ts";
+import {ICar} from "../../entities/car/car.types";
 
 export const CarsApi = {
     getAll(): Promise<{ data: ICar[] }> {

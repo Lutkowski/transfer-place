@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
 import CarCard from "../../entities/car/CarCard.vue";
-import {CarsApi} from "../../shared/api/get-cars.ts";
 import {onMounted, ref} from "vue";
 import {ICar} from "../../entities/car/car.types.ts";
+import {CarsApi} from "../../shared/api/cars.api.ts";
 
 
 const carList = ref<ICar[]>([]);
