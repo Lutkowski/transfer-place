@@ -1,12 +1,12 @@
 import {IDestination} from "../../widgets/Hero";
-import {Destinations} from "../../entities/destination/destination.types.ts";
+import {TransferType} from "../enums/transfer-type.enum.ts";
 
 
 export const destinationItems: IDestination[] = [
-    {destination: Destinations.AIRPORT, text: "Аэропорт Стригино"},
-    {destination: Destinations.RAILWAY_STATION, text: "ЖД Вокзал"},
-    {destination: Destinations.ADDRESS, text: "С адреса на адрес"},
-    {destination: Destinations.RENT, text: "Аренда авто с водителем"},
-    {destination: Destinations.INTERCITY, text: "Междугородние поездки"},
+    {destination: TransferType.AIRPORT, text: "Аэропорт Стригино"},
+    {destination: TransferType.RAILWAY, text: "ЖД Вокзал"},
+    {destination: TransferType.ADDRESS_TO_ADDRESS, text: "С адреса на адрес"},
+    {destination: TransferType.RENT_WITH_DRIVER, text: "Аренда авто с водителем"},
+    {destination: TransferType.INTERCITY, text: "Междугородние поездки"},
 
 ];
