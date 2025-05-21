@@ -11,9 +11,9 @@ import { MyButton } from "../../shared/ui/MyButton";
 import { useOrderStore } from "../../app/providers/order.store.ts";
 import { useOrderForm } from "./useOrderForm.ts";
 import {CalculatePriceDto} from "../../shared/api/dto/calculate-price.dto.ts";
-import {OrderApi} from "../../shared/api/price-calculate.ts";
 import {TransferType} from "../../shared/enums/transfer-type.enum.ts";
 import {CarClass} from "../../shared/enums/car-class.enum.ts";
+import {OrderApi} from "../../shared/api/price.api.ts";
 
 const orderStore = useOrderStore();
 const { totalPrice } = useOrderForm();

@@ -1,18 +1,13 @@
 <script setup lang="ts">
-import { MyInput } from "../../shared/ui/MyInput";
-import { PhoneInput } from "../../shared/ui/PhoneInput";
-import { MyButton } from "../../shared/ui/MyButton";
-import { useContactForm } from "./useContactForm";
+import {MyInput} from "../../shared/ui/MyInput";
+import {PhoneInput} from "../../shared/ui/PhoneInput";
+import {MyButton} from "../../shared/ui/MyButton";
+import {useContactForm} from "./useContactForm";
 
 const {
-  chosenQuestionType,
-  phone,
-  name,
-  submitForm,
-  QuestionType,
-  nameError,
-  phoneError,
-  isFormValid,
+  name, phone, message,
+  nameError, phoneError, messageError,
+  isFormValid, submitForm
 } = useContactForm();
 </script>
 
@@ -20,11 +15,7 @@ const {
   <div>
     <h3>Оставить заявку</h3>
     <form @submit.prevent="submitForm">
-      <select id="request" v-model="chosenQuestionType">
-        <option>{{ QuestionType.RENT }}</option>
-        <option>{{ QuestionType.CANCEL }}</option>
-        <option>{{ QuestionType.QUESTION }}</option>
-      </select>
+
 
       <MyInput
           v-model="name"
@@ -39,6 +30,9 @@ const {
           class="request-my-tel"
       />
       <p v-if="phoneError" class="error-message">{{ phoneError }}</p>
+
+      <textarea v-model="message" placeholder="Ваш вопрос или комментарий" rows="5"/>
+      <p v-if="messageError" class="error-message">{{ messageError }}</p>
 
       <div class="request-button-container">
         <div>
@@ -69,7 +63,7 @@ h3 {
 }
 
 input,
-select {
+textarea {
   border: none;
   font-family: Montserrat, Arial, sans-serif;
   font-size: 16px;
