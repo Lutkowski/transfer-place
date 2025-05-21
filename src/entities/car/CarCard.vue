@@ -9,7 +9,7 @@ const {car} = defineProps<{
 
 <template>
   <div class="car-card">
-    <img :src="car.img.src" :alt="car.img.alt">
+    <img :src="car.imgSrc" :alt="car.imgAlt">
     <div class="car-info">
       <h3>{{ car.carClass }}</h3>
       <p>{{ car.title }}</p>

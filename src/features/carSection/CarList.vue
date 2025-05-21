@@ -1,7 +1,21 @@
 <script setup lang="ts">
 
 import CarCard from "../../entities/car/CarCard.vue";
-import {carList} from "../../shared/mocks/carsMock.ts";
+import {CarsApi} from "../../shared/api/get-cars.ts";
+import {onMounted, ref} from "vue";
+import {ICar} from "../../entities/car/car.types.ts";
+
+
+const carList = ref<ICar[]>([]);
+
+onMounted(async () => {
+  try {
+    const res = await CarsApi.getAll();
+    carList.value = res.data;
+  } catch (e) {
+    console.error("Не удалось загрузить список машин", e);
+  }
+});
 </script>
 
 <template>

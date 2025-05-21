@@ -2,10 +2,9 @@ import {CarClass} from "../../shared/enums/car-class.enum.ts";
 import {TransferType} from "../../shared/enums/transfer-type.enum.ts";
 
 export interface ICar {
-    img: {
-        src: string;
-        alt: string;
-    };
+    id: string;
+    imgSrc: string;
+    imgAlt: string;
     carClass: string;
     title: string;
     placeNumber: number;
