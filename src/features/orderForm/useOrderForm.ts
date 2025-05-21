@@ -1,7 +1,7 @@
 import {computed, ref} from "vue";
 import {useOrderStore} from "../../app/providers/order.store";
-import {Destinations} from "../../entities/destination/destination.types";
 import {carClassPrices} from "../../entities/car/car.types";
+import {TransferType} from "../../shared/enums/transfer-type.enum.ts";
 
 export const useOrderForm = () => {
     const orderStore = useOrderStore();
@@ -13,7 +13,7 @@ export const useOrderForm = () => {
 
     const totalPrice = computed(() => {
         let total = basePrice.value + carClassPrices[orderStore.chosenCarClass][orderStore.destination];
-        if (orderStore.destination === Destinations.RENT) {
+        if (orderStore.destination === TransferType.RENT_WITH_DRIVER) {
             total *= orderStore.hoursQuantity;
         }
         if (orderStore.withChild) total += withChildPrice;

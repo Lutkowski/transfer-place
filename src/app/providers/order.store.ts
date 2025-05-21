@@ -1,12 +1,12 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import {carClass} from "../../entities/car/car.types";
-import {Destinations} from "../../entities/destination/destination.types";
+import {TransferType} from "../../shared/enums/transfer-type.enum.ts";
+import {CarClass} from "../../shared/enums/car-class.enum.ts";
 
 export const useOrderStore = defineStore('Order', () => {
 
-    const destination = ref<Destinations>(Destinations.AIRPORT)
-    const chosenCarClass = ref(carClass.STANDART)
+    const destination = ref<TransferType>(TransferType.AIRPORT)
+    const chosenCarClass = ref<CarClass>(CarClass.STANDARD)
     const withChild = ref(false)
     const withSign = ref(false)
     const hoursQuantity = ref(4);
@@ -15,7 +15,7 @@ export const useOrderStore = defineStore('Order', () => {
     const name = ref('');
     const phone = ref('');
 
-    const setDestination = (newDestination: Destinations) => {
+    const setDestination = (newDestination: TransferType) => {
         destination.value = newDestination
     }
 

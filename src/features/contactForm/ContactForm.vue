@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import {MyInput} from "../../shared/ui/MyInput";
-import {PhoneInput} from "../../shared/ui/PhoneInput";
-import {MyButton} from "../../shared/ui/MyButton";
-import {useContactForm} from "./useContactForm";
+import { MyInput } from "../../shared/ui/MyInput";
+import { PhoneInput } from "../../shared/ui/PhoneInput";
+import { MyButton } from "../../shared/ui/MyButton";
+import { useContactForm } from "./useContactForm";
 
-
-const { chosenQuestionType, phone, name, submitForm, QuestionType } = useContactForm();
+const {
+  chosenQuestionType,
+  phone,
+  name,
+  submitForm,
+  QuestionType,
+  nameError,
+  phoneError,
+  isFormValid,
+} = useContactForm();
 </script>
 
 <template>
@@ -17,14 +25,30 @@ const { chosenQuestionType, phone, name, submitForm, QuestionType } = useContact
         <option>{{ QuestionType.CANCEL }}</option>
         <option>{{ QuestionType.QUESTION }}</option>
       </select>
-      <MyInput v-model="name" type="text" name="name" placeholder="Имя"/>
+
+      <MyInput
+          v-model="name"
+          type="text"
+          name="name"
+          placeholder="Имя"
+      />
+      <p v-if="nameError" class="error-message">{{ nameError }}</p>
+
       <PhoneInput
           v-model="phone"
           class="request-my-tel"
-      ></PhoneInput>
+      />
+      <p v-if="phoneError" class="error-message">{{ phoneError }}</p>
+
       <div class="request-button-container">
         <div>
-          <MyButton class="request-button" type="submit">Перезвоните мне</MyButton>
+          <MyButton
+              class="request-button"
+              type="submit"
+              :disabled="!isFormValid"
+          >
+            Перезвоните мне
+          </MyButton>
         </div>
         <div>
           <p class="disclaimer">
@@ -44,14 +68,14 @@ h3 {
   line-height: 33px;
 }
 
-input, select {
+input,
+select {
   border: none;
   font-family: Montserrat, Arial, sans-serif;
   font-size: 16px;
   line-height: 21px;
-  color: rgb(106, 106, 106)
+  color: rgb(106, 106, 106);
 }
-
 
 form {
   display: flex;
@@ -64,12 +88,6 @@ form {
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   align-items: center;
-
-  p {
-    font-size: 13px;
-    line-height: 17px;
-    color: rgb(148, 154, 171);
-  }
 }
 
 .request-button {
@@ -78,5 +96,17 @@ form {
 
 .request-my-tel {
   border: none;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 14px;
+  margin-top: -0.5rem;
+}
+
+.disclaimer {
+  font-size: 13px;
+  line-height: 17px;
+  color: rgb(148, 154, 171);
 }
 </style>

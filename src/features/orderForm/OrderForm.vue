@@ -1,34 +1,33 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import { ref } from "vue";
 import OrderHint from "../../entities/orderHint/OrderHint.vue";
-import MyInput from "../../shared/ui/MyInput/MyInput.vue";
 import MyRange from "../../shared/ui/MyRange/MyRange.vue";
 import MyCheckbox from "../../shared/ui/MyCheckbox/MyCheckbox.vue";
 import PhoneInput from "../../shared/ui/PhoneInput/PhoneInput.vue";
-import {useModalStore} from "../../app/providers/modal.store.ts";
-import {ModalType} from "../../shared/ui/Modal/Modal.types.ts";
-import {MyButton} from "../../shared/ui/MyButton";
-import {Modal} from "../../shared/ui/Modal";
-import {Destinations} from "../../entities/destination/destination.types.ts";
-import {useOrderStore} from "../../app/providers/order.store.ts";
-import {useOrderForm} from "./useOrderForm.ts";
-import {carClass} from "../../entities/car/car.types.ts";
+// import { useModalStore } from "../../app/providers/modal.store.ts";
+// import { ModalType } from "../../shared/ui/Modal/Modal.types.ts";
+// import { Modal } from "../../shared/ui/Modal";
+import { MyButton } from "../../shared/ui/MyButton";
+import { useOrderStore } from "../../app/providers/order.store.ts";
+import { useOrderForm } from "./useOrderForm.ts";
+import {CalculatePriceDto} from "../../shared/api/dto/calculate-price.dto.ts";
+import {OrderApi} from "../../shared/api/price-calculate.ts";
+import {TransferType} from "../../shared/enums/transfer-type.enum.ts";
+import {CarClass} from "../../shared/enums/car-class.enum.ts";
 
-const modalStore = useModalStore();
 const orderStore = useOrderStore();
+const { totalPrice } = useOrderForm();
 
-const {totalPrice} = useOrderForm();
-
-const carClassOptions = Object.entries(carClass);
-const transferOptions = Object.entries(Destinations);
+const carClassOptions = Object.entries(CarClass);
+const transferOptions = Object.entries(TransferType);
 
 const backgroundPath = '/transferBackground';
-const transferImageURL: Record<Destinations, string> = {
-  [Destinations.AIRPORT]: `${backgroundPath}/airport.jpg`,
-  [Destinations.RAILWAY_STATION]: `${backgroundPath}/station.png`,
-  [Destinations.ADDRESS]: `${backgroundPath}/address.png`,
-  [Destinations.INTERCITY]: `${backgroundPath}/intercity.png`,
-  [Destinations.RENT]: `${backgroundPath}/rent.png`,
+const transferImageURL: Record<TransferType, string> = {
+  [TransferType.AIRPORT]: `${backgroundPath}/airport.jpg`,
+  [TransferType.RAILWAY]: `${backgroundPath}/station.png`,
+  [TransferType.ADDRESS_TO_ADDRESS]: `${backgroundPath}/address.png`,
+  [TransferType.INTERCITY]: `${backgroundPath}/intercity.png`,
+  [TransferType.RENT_WITH_DRIVER]: `${backgroundPath}/rent.png`,
 };
 
 const showDestination = ref(true);
@@ -39,6 +38,29 @@ const changeDestination = () => {
   }, 1000);
 };
 
+const submitOrder = async () => {
+  if (orderStore.destination === TransferType.INTERCITY) {
+    alert("Стоимость междугородней поездки рассчитывается оператором.");
+    return;
+  }
+
+
+  const dto: CalculatePriceDto = {
+    destination: orderStore.destination,
+    carClass: orderStore.chosenCarClass,
+    withChild: orderStore.withChild,
+    withSign: orderStore.withSign,
+    hoursQuantity: orderStore.hoursQuantity,
+  };
+
+  try {
+    const res = await OrderApi.create(dto);
+    alert(`Цена поездки: ${res.data.price} ₽`);
+  } catch (e) {
+    console.error("Ошибка при расчёте цены", e);
+    alert("Ошибка при расчёте. Проверьте данные.");
+  }
+};
 </script>
 
 <template>
@@ -47,14 +69,16 @@ const changeDestination = () => {
       <h2 v-if="showDestination">{{ orderStore.destination }}</h2>
     </transition>
   </header>
+
   <div class="order-form-content">
-    <form>
+    <form @submit.prevent="submitOrder">
       <label for="transferType">Вид трансфера</label>
       <select id="transferType" @change="changeDestination" v-model="orderStore.destination">
         <option v-for="[key, label] in transferOptions" :key="key" :label="label">
           {{ label }}
         </option>
       </select>
+
       <label for="carClass">Класс автомобиля</label>
       <select id="carClass" v-model="orderStore.chosenCarClass">
         <option v-for="[key, label ] in carClassOptions" :key="key" :label="label">
@@ -63,60 +87,36 @@ const changeDestination = () => {
       </select>
 
       <label for="phone">Номер телефона</label>
-      <PhoneInput
-          :modelValue="orderStore.phone" class="my-tel-input-order" name="phone"
-      ></PhoneInput>
-      <div v-if="orderStore.destination === Destinations.RENT">
+      <PhoneInput :modelValue="orderStore.phone" class="my-tel-input-order" name="phone" />
+
+      <div v-if="orderStore.destination === TransferType.RENT_WITH_DRIVER">
         <label for="hoursQuantity">Количество часов</label>
-        <MyRange v-model.number="orderStore.hoursQuantity" type="range" id="hoursQuantity"
-                 :min="4" :max="24"/>
+        <MyRange v-model.number="orderStore.hoursQuantity" type="range" id="hoursQuantity" :min="4" :max="24"/>
       </div>
-      <div v-if="orderStore.destination !== Destinations.INTERCITY" class="additional-options">
+
+      <div v-if="orderStore.destination !== TransferType.INTERCITY" class="additional-options">
         <div class="checkbox-container">
           <MyCheckbox type="checkbox" name="meetingSign" v-model="orderStore.withSign" :value="true"/>
-          <label>
-            Встреча с табличкой (500 ₽)
-          </label>
+          <label>Встреча с табличкой (500 ₽)</label>
         </div>
         <div class="checkbox-container">
           <MyCheckbox type="checkbox" name="childSeat" v-model="orderStore.withChild" :value="true"/>
-          <label>
-            Детское кресло (300 ₽)
-          </label>
+          <label>Детское кресло (300 ₽)</label>
         </div>
       </div>
-      <p v-if="orderStore.destination !== Destinations.INTERCITY">Стоимость поездки: <strong>{{ totalPrice }}
-        ₽</strong>
-      </p>
+
+      <p v-if="orderStore.destination !== TransferType.INTERCITY">Стоимость поездки: <strong>{{ totalPrice }} ₽</strong></p>
       <p v-else>Стоимость рассчитывается оператором</p>
-      <MyButton type="submit" class="submit-button" @click.prevent="modalStore.openModal(ModalType.OrderDetails)">
-        {{ orderStore.destination !== Destinations.INTERCITY ? "ЗАБРОНИРОВАТЬ" : 'Рассчитать' }}
+
+      <MyButton type="submit" class="submit-button">
+        {{ orderStore.destination !== TransferType.INTERCITY ? "ЗАБРОНИРОВАТЬ" : "Рассчитать" }}
       </MyButton>
-      <Modal :id="ModalType.OrderDetails" classes="order-modal">
-        <div class="confirmation-order-details">
-          <h2>Заказать</h2>
-          <form>
-            <label for="tripInformation">
-              Информация о поездке
-            </label>
-            <textarea id="tripInformation"
-                      placeholder="Укажите маршрут (откуда - куда), время, дату и ваши комментарии или пожелания"
-                      v-model="orderStore.details"
-            ></textarea>
-            <label for="name">
-              Контактные данные
-            </label>
-            <MyInput type="text" id="name" placeholder="Как к вам обращаться?" v-model="orderStore.name"/>
-            <PhoneInput v-model="orderStore.phone" class="my-tel-input-order"
-            ></PhoneInput>
-            <MyButton>Оставить заявку</MyButton>
-          </form>
-        </div>
-      </Modal>
     </form>
+
     <OrderHint class="order-hint"/>
   </div>
 </template>
+
 
 <style scoped lang="scss">
 header {

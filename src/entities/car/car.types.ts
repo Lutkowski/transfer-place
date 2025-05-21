@@ -1,4 +1,5 @@
-import {Destinations} from "../destination/destination.types.ts";
+import {CarClass} from "../../shared/enums/car-class.enum.ts";
+import {TransferType} from "../../shared/enums/transfer-type.enum.ts";
 
 export interface ICar {
     img: {
@@ -10,36 +11,29 @@ export interface ICar {
     placeNumber: number;
 }
 
-export enum carClass {
-    STANDART = "Стандарт",
-    COMFORT = "Комфорт",
-    BUSINESS = "Бизнес",
-    MINIWAN = "Минивэн"
-}
-
 export const carClassPrices = {
-    [carClass.STANDART]: {
-        [Destinations.AIRPORT]: 1200,
-        [Destinations.RAILWAY_STATION]: 800,
-        [Destinations.ADDRESS]: 800,
-        [Destinations.RENT]: 1000
+    [CarClass.STANDARD]: {
+        [TransferType.AIRPORT]: 1200,
+        [TransferType.RAILWAY]: 800,
+        [TransferType.ADDRESS_TO_ADDRESS]: 800,
+        [TransferType.RENT_WITH_DRIVER]: 1000
     },
-    [carClass.COMFORT]: {
-        [Destinations.AIRPORT]: 2500,
-        [Destinations.RAILWAY_STATION]: 1500,
-        [Destinations.ADDRESS]: 1500,
-        [Destinations.RENT]: 1500
+    [CarClass.COMFORT]: {
+        [TransferType.AIRPORT]: 2500,
+        [TransferType.RAILWAY]: 1500,
+        [TransferType.ADDRESS_TO_ADDRESS]: 1500,
+        [TransferType.RENT_WITH_DRIVER]: 1500
     },
-    [carClass.BUSINESS]: {
-        [Destinations.AIRPORT]: 6000,
-        [Destinations.RAILWAY_STATION]: 4000,
-        [Destinations.ADDRESS]: 4000,
-        [Destinations.RENT]: 2000
+    [CarClass.BUSINESS]: {
+        [TransferType.AIRPORT]: 6000,
+        [TransferType.RAILWAY]: 4000,
+        [TransferType.ADDRESS_TO_ADDRESS]: 4000,
+        [TransferType.RENT_WITH_DRIVER]: 2000
     },
-    [carClass.MINIWAN]: {
-        [Destinations.AIRPORT]: 4500,
-        [Destinations.RAILWAY_STATION]: 3000,
-        [Destinations.ADDRESS]: 3000,
-        [Destinations.RENT]: 1500
+    [CarClass.MINIVAN]: {
+        [TransferType.AIRPORT]: 4500,
+        [TransferType.RAILWAY]: 3000,
+        [TransferType.ADDRESS_TO_ADDRESS]: 3000,
+        [TransferType.RENT_WITH_DRIVER]: 1500
     },
 }
