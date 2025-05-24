@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import OrderHint from "../../entities/orderHint/OrderHint.vue";
-import MyRange from "../../shared/ui/MyRange/MyRange.vue";
-import MyCheckbox from "../../shared/ui/MyCheckbox/MyCheckbox.vue";
-import PhoneInput from "../../shared/ui/PhoneInput/PhoneInput.vue";
-// import { useModalStore } from "../../app/providers/modal.store.ts";
-// import { ModalType } from "../../shared/ui/Modal/Modal.types.ts";
-// import { Modal } from "../../shared/ui/Modal";
-import { MyButton } from "../../shared/ui/MyButton";
-import { useOrderStore } from "../../app/providers/order.store.ts";
-import { useOrderForm } from "./useOrderForm.ts";
-import {CalculatePriceDto} from "../../shared/api/dto/calculate-price.dto.ts";
-import {TransferType} from "../../shared/enums/transfer-type.enum.ts";
-import {CarClass} from "../../shared/enums/car-class.enum.ts";
-import {OrderApi} from "../../shared/api/price.api.ts";
+import {ref, computed} from 'vue';
+import {useRouter} from 'vue-router';
+import {useOrderStore} from '../../app/providers/order.store';
+import {useAuthStore} from '../../app/providers/auth.store';
+import {useModalStore} from '../../app/providers/modal.store';
+import {useOrderForm} from './useOrderForm';
+
+import {ModalType} from '../../shared/ui/Modal/Modal.types';
+import {OrderApi} from '../../shared/api/order.api'; // путь к OrderApi
+import {TransferType} from '../../shared/enums/transfer-type.enum';
+import {CarClass} from '../../shared/enums/car-class.enum';
+
+import OrderHint from '../../entities/orderHint/OrderHint.vue';
+import MyRange from '../../shared/ui/MyRange/MyRange.vue';
+import MyCheckbox from '../../shared/ui/MyCheckbox/MyCheckbox.vue';
+import PhoneInput from '../../shared/ui/PhoneInput/PhoneInput.vue';
+import {MyButton} from '../../shared/ui/MyButton';
+import {Modal} from '../../shared/ui/Modal';
 
 const orderStore = useOrderStore();
-const { totalPrice } = useOrderForm();
+const authStore = useAuthStore();
+const modalStore = useModalStore();
+const router = useRouter();
+
+const {totalPrice} = useOrderForm();
 
 const carClassOptions = Object.entries(CarClass);
 const transferOptions = Object.entries(TransferType);
@@ -38,27 +45,49 @@ const changeDestination = () => {
   }, 1000);
 };
 
+const isAuthenticated = computed(() => !!authStore.phone);
+
 const submitOrder = async () => {
-  if (orderStore.destination === TransferType.INTERCITY) {
-    alert("Стоимость междугородней поездки рассчитывается оператором.");
+  if (!isAuthenticated.value) {
+    modalStore.openModal(ModalType.AuthRequired);
+    setTimeout(() => {
+      modalStore.closeModal();
+      router.push('/auth');
+    }, 1500);
     return;
   }
 
-
-  const dto: CalculatePriceDto = {
-    destination: orderStore.destination,
+  const dto = {
+    transferType: orderStore.destination,
     carClass: orderStore.chosenCarClass,
     withChild: orderStore.withChild,
     withSign: orderStore.withSign,
     hoursQuantity: orderStore.hoursQuantity,
+    pickupLocation: orderStore.pickupLocation,
+    dropoffLocation: orderStore.dropoffLocation,
+    pickupDate: orderStore.pickupDate,
+    pickupTime: orderStore.pickupTime,
+    comment: orderStore.comment,
+    name: authStore.name || orderStore.name,
+    phone: authStore.phone || orderStore.phone,
   };
 
   try {
-    const res = await OrderApi.create(dto);
-    alert(`Цена поездки: ${res.data.price} ₽`);
+    const priceResponse = await OrderApi.calculatePrice({
+      destination: dto.transferType,
+      carClass: dto.carClass,
+      withChild: dto.withChild,
+      withSign: dto.withSign,
+    });
+    const calculatedPrice = priceResponse.data.price;
+
+    const orderResponse = await OrderApi.create({ ...dto, price: calculatedPrice });
+
+    alert(`Заявка создана! Стоимость: ${calculatedPrice} ₽`);
   } catch (e) {
-    console.error("Ошибка при расчёте цены", e);
-    alert("Ошибка при расчёте. Проверьте данные.");
+    console.error('Ошибка при создании заказа');
+    alert('Не удалось создать заявку. Проверьте данные.');
+
   }
 };
 </script>
@@ -74,20 +103,37 @@ const submitOrder = async () => {
     <form @submit.prevent="submitOrder">
       <label for="transferType">Вид трансфера</label>
       <select id="transferType" @change="changeDestination" v-model="orderStore.destination">
-        <option v-for="[key, label] in transferOptions" :key="key" :label="label">
-          {{ label }}
-        </option>
+        <option v-for="[key, label] in transferOptions" :key="key" :label="label">{{ label }}</option>
       </select>
 
       <label for="carClass">Класс автомобиля</label>
       <select id="carClass" v-model="orderStore.chosenCarClass">
-        <option v-for="[key, label ] in carClassOptions" :key="key" :label="label">
-          {{ label }}
-        </option>
+        <option v-for="[key, label] in carClassOptions" :key="key" :label="label">{{ label }}</option>
       </select>
 
-      <label for="phone">Номер телефона</label>
-      <PhoneInput :modelValue="orderStore.phone" class="my-tel-input-order" name="phone" />
+      <label for="pickupLocation">Откуда</label>
+      <input v-model="orderStore.pickupLocation" id="pickupLocation" placeholder="Адрес подачи"/>
+
+      <label v-if="orderStore.destination !== TransferType.RENT_WITH_DRIVER" for="dropoffLocation">Куда</label>
+      <input v-if="orderStore.destination !== TransferType.RENT_WITH_DRIVER" v-model="orderStore.dropoffLocation"
+             id="dropoffLocation" placeholder="Адрес назначения"/>
+
+      <label for="pickupDate">Дата</label>
+      <input v-model="orderStore.pickupDate" id="pickupDate" type="date"/>
+
+      <label for="pickupTime">Время</label>
+      <input v-model="orderStore.pickupTime" id="pickupTime" type="time"/>
+
+      <label for="name">Имя</label>
+      <input v-model="orderStore.name" id="name" placeholder="Как к вам обращаться?"/>
+
+      <div v-if="!authStore.phone">
+        <label for="phone">Телефон</label>
+        <PhoneInput v-model="orderStore.phone" class="my-tel-input-order" name="phone"/>
+      </div>
+
+      <label for="comment">Комментарий</label>
+      <textarea v-model="orderStore.comment" id="comment" placeholder="Пожелания, номер рейса и т.д."/>
 
       <div v-if="orderStore.destination === TransferType.RENT_WITH_DRIVER">
         <label for="hoursQuantity">Количество часов</label>
@@ -105,16 +151,25 @@ const submitOrder = async () => {
         </div>
       </div>
 
-      <p v-if="orderStore.destination !== TransferType.INTERCITY">Стоимость поездки: <strong>{{ totalPrice }} ₽</strong></p>
+      <p v-if="orderStore.destination !== TransferType.INTERCITY">
+        Стоимость поездки: <strong>{{ totalPrice }} ₽</strong>
+      </p>
       <p v-else>Стоимость рассчитывается оператором</p>
 
       <MyButton type="submit" class="submit-button">
-        {{ orderStore.destination !== TransferType.INTERCITY ? "ЗАБРОНИРОВАТЬ" : "Рассчитать" }}
+        {{ orderStore.destination !== TransferType.INTERCITY ? 'ЗАБРОНИРОВАТЬ' : 'Рассчитать' }}
       </MyButton>
     </form>
 
     <OrderHint class="order-hint"/>
   </div>
+
+  <Modal :id="ModalType.AuthRequired">
+    <div class="modal-inner">
+      <h2>Авторизация</h2>
+      <p>Для оформления заказа необходимо авторизоваться</p>
+    </div>
+  </Modal>
 </template>
 
 

@@ -4,4 +4,5 @@ export enum ModalType {
     PaymentDetails = 'payment-details',
     AuthSuccess = 'AuthSuccess',
     AuthError = 'AuthError',
+    AuthRequired = 'AuthRequired'
 }
