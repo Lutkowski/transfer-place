@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import Navbar from "../../shared/ui/Navbar/Navbar.vue";
 import logo from "/logo.svg"
+import {RouterLink} from "vue-router";
+import {onMounted} from "vue";
+import {storeToRefs} from "pinia";
+import {useAuthStore} from "../../app/providers/auth.store.ts";
+
+const auth = useAuthStore();
+const { phone } = storeToRefs(auth);
+
+onMounted(() => {
+  auth.initFromStorage();
+});
 
 const headerItems = [
   {href: "#autopark", text: "автопарк"},
@@ -12,16 +23,22 @@ const headerItems = [
 
 <template>
   <header>
-    <div class="logo">
-      <img :src="logo" alt="Логотип">
-      <p>transfer<br/>place</p>
-    </div>
+    <RouterLink to="/" class="logo">
+      <img :src="logo" alt="Логотип" />
+      <p>transfer<br />place</p>
+    </RouterLink>
     <Navbar class="navbar__header">
       <li v-for="(item, index) in headerItems" :key="index">
         <a :href="item.href">{{ item.text }}</a>
       </li>
     </Navbar>
     <a class="phone__header" href="tel:89315213066">8 (931) 521-30-66</a>
+    <RouterLink
+        :to="phone ? '/account' : '/auth'"
+        class="account-button"
+    >
+      {{ phone ? 'Мои заказы' : 'Войти' }}
+    </RouterLink>
   </header>
 </template>
 
@@ -87,5 +104,14 @@ header {
   .navbar__header {
     display: none;
   }
+}
+
+.account-button {
+  margin-left: 2rem;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
 }
 </style>

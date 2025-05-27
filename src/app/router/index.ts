@@ -13,6 +13,12 @@ const routes: RouteRecordRaw[] = [
         name: 'auth',
         component: AuthPage,
     },
+    {
+        path: '/account',
+        name: 'MyOrders',
+        component: () => import('../../pages/MyOrders.vue'),
+        meta: { requiresAuth: true },
+    }
 ];
 
 export const router = createRouter({

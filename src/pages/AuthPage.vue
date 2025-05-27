@@ -1,4 +1,14 @@
+<script setup lang="ts">
+import { useAuthStore } from "../app/providers/auth.store";
+import PhoneForm from "../features/auth/ui/PhoneForm.vue";
+import CodeForm from "../features/auth/ui/CodeForm.vue";
+import PageHeader from "../shared/ui/Header/PageHeader.vue";
+
+const auth = useAuthStore();
+</script>
+
 <template>
+  <PageHeader />
   <div class="auth-container">
     <div class="auth-box">
       <PhoneForm v-if="!auth.isCodeSent" />
@@ -7,13 +17,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useAuthStore } from "../app/providers/auth.store";
-import PhoneForm from "../features/auth/ui/PhoneForm.vue";
-import CodeForm from "../features/auth/ui/CodeForm.vue";
-
-const auth = useAuthStore();
-</script>
 
 <style scoped lang="scss">
 .auth-container {
